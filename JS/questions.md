@@ -8,3 +8,23 @@
 
 **区别**：防抖是将多次执行变为最后一次执行，节流是将多次执行变为每隔一段时间执行。`js`代码中它们的区别就在于`if`这里是清除定时器还是直接`return`终止函数。<br />
 防抖与节流函数代码直达：[手写节流&防抖](https://github.com/Xglbrilliant/Front-end-interview/blob/main/JS/debounce-throttle.js)
+
+#### 2、事件循环(EventLoop)？
+
+Js是单线程的，因此每次JS仅能执行一个任务，所以任务需要排队。而所有任务可以分为**同步任务(synchronous)**和**异步任务(asynchronous)**，异步任务又可以分为**宏任务**与**微任务**。这些任务的执行顺序是：同步任务>微任务>宏任务。
+
+宏任务包括：script脚本、setTimeout、setInterval、setImmediate、i/o操作（Node.js）、 UI渲染（dom渲染，即更改代码重新渲染dom的过程）、异步ajax等  ；
+
+微任务包括： Promise（then、catch、finally）、async/await、process.[nextTick](https://so.csdn.net/so/search?q=nextTick&spm=1001.2101.3001.7020)、Object.observe(⽤来实时监测js中对象的变化)、 MutationObserver(监听DOM树的变化) ；
+
+在 EventLoop 中每一次循环被称为 tick，每次 tick 的步骤如下：
+
+1. js 引擎线程中的执行栈首先会执行 `script`（宏任务），执行完所有的同步代码。
+2. 在整体的 script 脚本的执行过程中一定会有同步代码和异步代码，异步代码会根据不同的任务类型，相应的添加到宏任务队列或微任务队列中。
+3. 当前 tick 中宏任务执行完毕后，会检查微任务队列，并清空微任务队列执行完所有的微任务
+4. 微任务队列清空后，如果宿主环境为浏览器可能会有渲染 DOM 的操作，不过浏览器也会有相应的优化多个 tick 后合并成一次渲染操作。到此当前 tick 结束。
+5. 接着就是进入下一次 tick，如果当前执行栈是空闲状态会从宏任务队列中取出一个任务执行，宏任务的执行完毕后紧跟着的又是清空微任务队列，这里可以理解为微任务始终是在当前 tick 末尾执行。
+6. 以上步骤循环反复就形成了 EventLoop。
+
+参考：[事件循环](https://juejin.cn/post/6898975636035993607)
+

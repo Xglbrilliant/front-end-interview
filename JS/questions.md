@@ -28,3 +28,12 @@ Js是单线程的，因此每次JS仅能执行一个任务，所以任务需要�
 
 参考：[事件循环](https://juejin.cn/post/6898975636035993607)
 
+#### 3、深拷贝与浅拷贝？
+
+**浅拷贝**：创建一个新对象，这个对象有着原始对象属性值的一份精确拷贝。如果属性是`基本类型`（ String,Number,Undefined,Null,Boolean,Symbol），拷贝的就是基本类型的值；如果属性是`引用类型`（ Object,Array,Function, Date,RegExp, Set,Map等），拷贝的就是内存地址 ，所以如果其中一个对象改变了这个地址，就会影响到另一个对象。
+
+实现方法：`Object.assign()`、`展开运算符...`、`lodash的_.clone()方法`、`Array.prototype.slice()`和`Array.prototype.concat()`。
+
+**深拷贝**： 将一个对象从内存中完整的拷贝一份出来，**从堆内存中开辟一个新的区域存放新对象**，且修改新对象不会影响原对象 。
+
+实现方法：`JSON.parse()`、`JSON.stringify()`、`lodash的_.cloneDeep()方法`、`jQuery.extend()`和`递归`。
